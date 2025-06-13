@@ -1,6 +1,14 @@
-home_attack,home_defense,away_attack,away_defense,score_exact
-80,75,70,68,2-1
-78,74,72,70,1-1
-85,80,65,60,3-0
-70,65,80,85,0-2
-82,77,77,76,2-2
+import streamlit as st
+# ... autres imports ...
+from bs4 import BeautifulSoup
+
+# URL de ta page
+URL = "https://1xbet.sn/fr/statisticpopup/cyber/85/109/193"
+
+@st.cache_data
+def charger_donnees_auto():
+    df = scrap_fifa_results(URL)
+    df['total_buts'] = df['score1'] + df['score2']
+    df['diff_score'] = df['score1'] - df['score2']
+    df['score_exact'] = df['score1'].astype(str) + '-' + df['score2'].astype(str)
+    return df
